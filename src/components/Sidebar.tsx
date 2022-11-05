@@ -1,26 +1,40 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Grid, IconButton } from "@mui/material";
 import { Video } from "./Video";
-import { SidebarSizes } from "../assets/constants";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 
 export function Sidebar() {
-	const [sidebarSize, setSidebarSize] = useState(SidebarSizes.Large);
-	const isSidebarHidden = sidebarSize === SidebarSizes.Hidden;
+	const SideBarSizes = [0, 200, 400];
+	const [sidebarSize, setSidebarSize] = useState(SideBarSizes.length - 1);
+	const isSidebarHidden = sidebarSize === 0;
 
-	const increaseSidebarSize = () => {
-		// const sidebarSizeKeys = Object.keys(SidebarSizes);
-		// const currentSidebarSizeKey = sidebarSizeKeys.indexOf(sidebarSize)
-	};
+	const HiddenSidebar = () => (
+		<IconButton onClick={() => setSidebarSize(1)}>
+			<ArrowLeftIcon />
+		</IconButton>
+	);
 
 	return (
 		<>
 			{isSidebarHidden ? (
-				<>BRUH</>
+				<HiddenSidebar />
 			) : (
-				<Grid container sx={{ width: sidebarSize }}>
+				<Grid container sx={{ width: SideBarSizes[sidebarSize] }}>
 					<Grid item container flexDirection="row">
-						<Button onClick={increaseSidebarSize}>Larger</Button>
-						<Button>Smaller</Button>
+						{sidebarSize !== SideBarSizes.length - 1 && (
+							<Button
+								variant="contained"
+								onClick={() => setSidebarSize(prev => prev + 1)}
+							>
+								Larger
+							</Button>
+						)}
+						<Button
+							variant="contained"
+							onClick={() => setSidebarSize(prev => prev - 1)}
+						>
+							Smaller
+						</Button>
 					</Grid>
 					<Video />
 					<Video />

@@ -1,14 +1,20 @@
-import React, { useState } from "react";
-import { Button, Box, Grid, TextField } from "@mui/material";
+import React, { useContext, useState } from "react";
+import { Button, Box, Grid, TextField, Typography } from "@mui/material";
 
 import { getDocs, collection, query, where, addDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { UserContext } from "../context/UserContext";
 
-export function Signup() {
+export function Signup({
+	loginTypeSetter,
+}: {
+	loginTypeSetter: (newLoginType: string) => void;
+}) {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 
+	const { updateUserID } = useContext(UserContext);
 	async function handleSignup(
 		event: React.MouseEvent<HTMLButtonElement, MouseEvent>
 	) {
@@ -39,10 +45,11 @@ export function Signup() {
 		addDoc(usersCollection, userData)
 			.then(snapshot => {
 				const docID = snapshot.id;
-				// Set User Data Here
+				updateUserID(docID);
 			})
 			.catch(() => {
 				setError("Could not create account");
+				updateUserID("");
 			});
 	}
 
@@ -53,16 +60,15 @@ export function Signup() {
 				direction="column"
 				alignItems="center"
 				justifyContent="center"
-				sx={{ width: "100%", height: "100vh" }}
 			>
 				<Box sx={{ width: "100%", padding: "0rem 1rem 1rem 1rem" }}>
 					<TextField
 						required
 						fullWidth
-						type="email"
+						type="text"
 						variant="filled"
-						label="Email"
-						placeholder="Your Email"
+						label="Username"
+						placeholder="Your Username"
 						onChange={event => setUsername(event.target.value)}
 						autoComplete="none"
 						value={username}
@@ -83,13 +89,36 @@ export function Signup() {
 				</Box>
 
 				<Box style={{ width: "100%", padding: "0rem 1rem 0rem 1rem" }}>
-					<Button
-						variant="contained"
-						onClick={handleSignup}
-						style={{ width: "100%" }}
-					>
-						Sign Up
-					</Button>
+					<Grid container gap="1rem">
+						<Grid item flex={1}>
+							<Button
+								variant="contained"
+								onClick={handleSignup}
+								style={{ width: "100%" }}
+							>
+								Sign Up
+							</Button>
+						</Grid>
+						<Grid item flex={1}>
+							<Button
+								variant="outlined"
+								onClick={() => loginTypeSetter("signin")}
+								style={{ width: "100%" }}
+							>
+								Sign In Instead
+							</Button>
+						</Grid>
+					</Grid>
+					{error !== "" && (
+						<Typography
+							fontSize="xs"
+							style={{ fontStyle: "italic" }}
+							fontWeight="bolder"
+							color="red"
+						>
+							{error}
+						</Typography>
+					)}
 				</Box>
 			</Grid>
 		</form>

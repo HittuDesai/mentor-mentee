@@ -2,6 +2,7 @@ import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { UserContextProvider } from "./context/UserContext";
 
 const darkTheme = createTheme({
 	palette: {
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
-			<App />
+			<UserContextProvider>
+				<App />
+			</UserContextProvider>
 		</ThemeProvider>
 	</React.StrictMode>
 );

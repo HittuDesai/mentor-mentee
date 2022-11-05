@@ -1,9 +1,14 @@
+import { useContext } from "react";
+import { UserContext, UserContextProvider } from "./context/UserContext";
+
 import { Header } from "./components/Header";
 import Dashboard from "./components/Dashboard";
 import { Grid } from "@mui/material";
 import { Login } from "./components/Login";
 
 function App() {
+	const { userID } = useContext(UserContext);
+
 	return (
 		<Grid
 			container
@@ -13,10 +18,8 @@ function App() {
 			<Grid item>
 				<Header />
 			</Grid>
-			{/* <Dashboard /> */}
-			<Grid item>
-				<Login />
-			</Grid>
+
+			{!userID || userID?.length === 0 ? <Login /> : <Dashboard />}
 		</Grid>
 	);
 }

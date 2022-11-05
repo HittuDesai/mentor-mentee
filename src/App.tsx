@@ -1,7 +1,7 @@
-import { Grid } from "@mui/material";
 import { Header } from "./components/Header";
-import { LearningArea } from "./components/LearningArea";
-import { Sidebar } from "./components/Sidebar";
+import Dashboard from "./components/Dashboard";
+import { Grid } from "@mui/material";
+import { Login } from "./components/Login";
 
 function App() {
 	return (
@@ -13,19 +13,9 @@ function App() {
 			<Grid item>
 				<Header />
 			</Grid>
-			<Grid
-				item
-				flex={1}
-				container
-				flexDirection="row"
-				justifyContent="space-between"
-			>
-				<Grid item flex={1} sx={{ background: "red" }}>
-					<LearningArea />
-				</Grid>
-				<Grid item>
-					<Sidebar />
-				</Grid>
+			{/* <Dashboard /> */}
+			<Grid item>
+				<Login />
 			</Grid>
 		</Grid>
 	);

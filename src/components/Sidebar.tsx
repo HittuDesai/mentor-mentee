@@ -19,8 +19,12 @@ export function Sidebar() {
 			{isSidebarHidden ? (
 				<HiddenSidebar />
 			) : (
-				<Grid container sx={{ width: SideBarSizes[sidebarSize] }}>
-					<Grid item container flexDirection="row">
+				<Grid
+					container
+					flexDirection="column"
+					sx={{ width: SideBarSizes[sidebarSize], height: "100%" }}
+				>
+					<Grid item flexDirection="row">
 						{sidebarSize !== SideBarSizes.length - 1 && (
 							<Button
 								variant="contained"
@@ -36,8 +40,20 @@ export function Sidebar() {
 							Smaller
 						</Button>
 					</Grid>
-					<Video />
-					<Video />
+					<Grid
+						item
+						flex={1}
+						container
+						flexDirection="column"
+						sx={{ background: "blue" }}
+					>
+						<Grid item flex={1}>
+							<Video />
+						</Grid>
+						<Grid item flex={1}>
+							<Video />
+						</Grid>
+					</Grid>
 				</Grid>
 			)}
 		</>
